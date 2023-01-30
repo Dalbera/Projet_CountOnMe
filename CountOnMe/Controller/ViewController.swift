@@ -25,7 +25,6 @@ class ViewController: UIViewController {
         return textView.text.split(separator: " ").map { "\($0)" } // Return the text typed in textView and removing spaces
     }
     
-    // Error check computed variables
     var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" // Check that the elements selected before = are numbers and not +, -, * or /
     }
@@ -105,20 +104,19 @@ class ViewController: UIViewController {
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 { // The strategy here is to keep only one data in operationsToReduce, which will be the result so there is a while loop to continue as long as there is more than 1 index.
-            let left = Float(operationsToReduce[0])! // Index 0 is stored in "left" constant
-            let operand = operationsToReduce[1] // Index 1 is stored as "operand" constant
-            let right = Float(operationsToReduce[2])! // Index 2 is stored in "right" constant
+            let left = Int(operationsToReduce[0])! // Index 0 is stored in "left" constant
+            let right = Int(operationsToReduce[2])! // Index 2 is stored in "right" constant
             // If there are more indexes, the first 3 will be calculated, the result takes the first place and the 2 following indexes will be removed and it continues until there is only 1 index in the array.
             
-            let result: Float
-            switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            case "x": result = left * right
-            case "/": result = left / right // error
-            default: fatalError("Unknown operator !") // only "+" and "-" are allowed
+            
+            guard let operand = Operator(rawValue: operationsToReduce[1]) else {
+                resetCalculator()
+                let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
+                alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                return self.present(alertVC, animated: true, completion: nil)
             }
             
+            let result = calculator.calculate(left, operand, right)
             operationsToReduce = Array(operationsToReduce.dropFirst(3)) // Remove first 3 index of operationsToReduce
             operationsToReduce.insert("\(result)", at: 0) // add the result of the operation to var operationsToReduce at index 0
         }
