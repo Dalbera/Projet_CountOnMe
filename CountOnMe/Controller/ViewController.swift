@@ -14,33 +14,28 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
-    
     @IBOutlet var operatorButtons: [UIButton]!
-    
     @IBOutlet weak var resetButton: UIButton!
     
-    func resetCalculator() {
-        textView.text = ""
-    }
+    // MARK: - Properties
     
+    var calculator = Calculator()
     
     var elements: [String] {
         return textView.text.split(separator: " ").map { "\($0)" } // Return the text typed in textView and removing spaces
     }
     
-    // MARK: - Properties
     // Error check computed variables
-    
     var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-" // Check that the elements selected before = are numbers and not + or -
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" // Check that the elements selected before = are numbers and not +, -, * or /
     }
     
     var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3 // Check that at least 3 elements have been added to elements (because we need to use at least 2 numbers in operation and a mathematical symbol was used in between
+        return elements.count >= calculator.minSelection // Check that at least 3 elements have been added to elements (because we need to use at least 2 numbers in operation and a mathematical symbol was used in between
     }
     
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" // Check that mathematical symbols + and - can be added, if there is already "+" or "-" at the end it will return false
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" // Check that mathematical symbols + and - can be added, if there is already "+" or "-" at the end it will return false
     }
     
     var expressionHaveResult: Bool {
@@ -48,6 +43,7 @@ class ViewController: UIViewController {
     }
     
     // MARK: - View Life Cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         resetCalculator()
@@ -90,7 +86,7 @@ class ViewController: UIViewController {
         }
     }
     
-
+    
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         guard expressionIsCorrect else { // allows typing "=" button only if it is not the first element typed in textView
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
@@ -119,7 +115,7 @@ class ViewController: UIViewController {
             case "+": result = left + right
             case "-": result = left - right
             case "x": result = left * right
-            case "/": result = left / right
+            case "/": result = left / right // error
             default: fatalError("Unknown operator !") // only "+" and "-" are allowed
             }
             
@@ -129,6 +125,12 @@ class ViewController: UIViewController {
         
         textView.text.append(" = \(operationsToReduce.first!)") // add in textView the result of the operation (reading index 0 of operationsToReduce)
     }
-
+    
+    // MARK: - Methods
+    
+    func resetCalculator() {
+        textView.text = ""
+    }
+    
 }
 
