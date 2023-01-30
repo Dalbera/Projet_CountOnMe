@@ -9,10 +9,9 @@
 import Foundation
 
 class Calculator {
-    // des chiffres
-    // des opérateurs
-    // des calculs entre 2 données ou +
-    // un résultat
+    // TODO: - 
+    // Manage the operations
+    // Store the result
     
     var minSelection = 3
     
