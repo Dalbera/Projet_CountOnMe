@@ -15,12 +15,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     
+    @IBOutlet var operatorButtons: [UIButton]!
+    
+    @IBOutlet weak var resetButton: UIButton!
+    
+    func resetCalculator() {
+        textView.text = ""
+    }
+    
+    
     var elements: [String] {
         return textView.text.split(separator: " ").map { "\($0)" } // Return the text typed in textView and removing spaces
     }
     
     // MARK: - Properties
     // Error check computed variables
+    
     var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" // Check that the elements selected before = are numbers and not + or -
     }
@@ -40,11 +50,17 @@ class ViewController: UIViewController {
     // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        resetCalculator()
     }
     
     
     // MARK: - View Actions
+    
+    @IBAction func tappedResetButton(_ sender: UIButton) {
+        resetCalculator()
+    }
+    
+    
     @IBAction func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else { // Get the title of the button selected and save it to numberText
             return
@@ -57,25 +73,25 @@ class ViewController: UIViewController {
         textView.text.append(numberText) // If all conditions above allows it, add numberText to the text in textView and elements
     }
     
-    @IBAction func tappedAdditionButton(_ sender: UIButton) {
+    
+    @IBAction func tappedOperatorButton(_ sender: UIButton) {
+        guard let operatorText = sender.title(for: .normal) else {
+            return
+        }
+        if expressionHaveResult {
+            resetCalculator()
+        }
         if canAddOperator {
-            textView.text.append(" + ") // allow addition only if there isn't already "+" or "-" at the end, then add " + " (with spaces) at the end of the textView
+            textView.text.append(" \(operatorText) ")
         } else {
+            resetCalculator()
             let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             self.present(alertVC, animated: true, completion: nil)
+            
         }
     }
     
-    @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if canAddOperator { // allow substraction only if there isn't already "+" or "-" at the end, then add " - " (with spaces) at the end of the textView
-            textView.text.append(" - ")
-        } else {
-            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
-        }
-    }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         guard expressionIsCorrect else { // allows typing "=" button only if it is not the first element typed in textView

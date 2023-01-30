@@ -76,7 +76,7 @@
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="tappedEqualButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="aS8-MN-8zG"/>
+                                                    <action selector="tappedResetButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="grk-iC-iji"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -199,7 +199,7 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="tappedAdditionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="V0J-eg-vQK"/>
+                                            <action selector="tappedOperatorButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="EaZ-HT-yOg"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3zr-HC-0N9">
@@ -213,7 +213,7 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="tappedSubstractionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="KVX-AF-NVM"/>
+                                            <action selector="tappedOperatorButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="Mpa-my-bdc"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CAp-UC-Hf2">
@@ -227,7 +227,7 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="tappedEqualButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="bSo-3Q-0Cc"/>
+                                            <action selector="tappedOperatorButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="eZ9-7n-pJ4"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tOj-rf-PWC">
@@ -241,7 +241,9 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
+                                            <action selector="tappedDivisionButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="HMo-s4-JCu"/>
                                             <action selector="tappedEqualButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="eCh-eg-KL0"/>
+                                            <action selector="tappedOperatorButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="BCk-4n-U5W"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -264,6 +266,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="resetButton" destination="nFx-9l-KDu" id="IBY-Cm-wAy"/>
                         <outlet property="textView" destination="T2H-yn-nBB" id="yqe-Yo-Sag"/>
                         <outletCollection property="numberButtons" destination="YD6-ul-r3f" collectionClass="NSMutableArray" id="c8W-uL-ZHg"/>
                         <outletCollection property="numberButtons" destination="Raa-av-x4n" collectionClass="NSMutableArray" id="P52-Zx-bMS"/>
@@ -275,6 +278,11 @@
                         <outletCollection property="numberButtons" destination="W04-n1-Wen" collectionClass="NSMutableArray" id="F9G-eA-4ij"/>
                         <outletCollection property="numberButtons" destination="EPx-3X-zTa" collectionClass="NSMutableArray" id="tmM-9D-IHt"/>
                         <outletCollection property="numberButtons" destination="Hkr-13-i1X" collectionClass="NSMutableArray" id="Cn1-3U-qap"/>
+                        <outletCollection property="operatorButtons" destination="DQU-P5-55X" collectionClass="NSMutableArray" id="JBf-0c-cNJ"/>
+                        <outletCollection property="operatorButtons" destination="3zr-HC-0N9" collectionClass="NSMutableArray" id="kWs-bW-0Xx"/>
+                        <outletCollection property="operatorButtons" destination="CAp-UC-Hf2" collectionClass="NSMutableArray" id="KhE-sz-Bov"/>
+                        <outletCollection property="operatorButtons" destination="tOj-rf-PWC" collectionClass="NSMutableArray" id="xX3-3Z-rVA"/>
+                        <outletCollection property="operatorButtons" destination="qMj-Of-bCU" collectionClass="NSMutableArray" id="h04-Ug-lIF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7XP-3c-sJZ" sceneMemberID="firstResponder"/>
