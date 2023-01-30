@@ -9,53 +9,57 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    // MARK: - Outlets
+    
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
     
     var elements: [String] {
-        return textView.text.split(separator: " ").map { "\($0)" }
+        return textView.text.split(separator: " ").map { "\($0)" } // Return the text typed in textView and removing spaces
     }
     
+    // MARK: - Properties
     // Error check computed variables
     var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-"
+        return elements.last != "+" && elements.last != "-" // Check that the elements selected before = are numbers and not + or -
     }
     
     var expressionHaveEnoughElement: Bool {
-        return elements.count >= 3
+        return elements.count >= 3 // Check that at least 3 elements have been added to elements (because we need to use at least 2 numbers in operation and a mathematical symbol was used in between
     }
     
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-"
+        return elements.last != "+" && elements.last != "-" // Check that mathematical symbols + and - can be added, if there is already "+" or "-" at the end it will return false
     }
     
     var expressionHaveResult: Bool {
-        return textView.text.firstIndex(of: "=") != nil
+        return textView.text.firstIndex(of: "=") != nil // Check that the first elements typed in textView is not =
     }
     
-    // View Life cycles
+    // MARK: - View Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
     
     
-    // View actions
+    // MARK: - View Actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
-        guard let numberText = sender.title(for: .normal) else {
+        guard let numberText = sender.title(for: .normal) else { // Get the title of the button selected and save it to numberText
             return
         }
         
         if expressionHaveResult {
-            textView.text = ""
+            textView.text = "" // If the first element typed in textView is "=", nothing is displayed in textView
         }
         
-        textView.text.append(numberText)
+        textView.text.append(numberText) // If all conditions above allows it, add numberText to the text in textView and elements
     }
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
         if canAddOperator {
-            textView.text.append(" + ")
+            textView.text.append(" + ") // allow addition only if there isn't already "+" or "-" at the end, then add " + " (with spaces) at the end of the textView
         } else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -64,7 +68,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if canAddOperator {
+        if canAddOperator { // allow substraction only if there isn't already "+" or "-" at the end, then add " - " (with spaces) at the end of the textView
             textView.text.append(" - ")
         } else {
             let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
@@ -74,39 +78,40 @@ class ViewController: UIViewController {
     }
 
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard expressionIsCorrect else {
+        guard expressionIsCorrect else { // allows typing "=" button only if it is not the first element typed in textView
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
         
-        guard expressionHaveEnoughElement else {
+        guard expressionHaveEnoughElement else { // adds another condition to type "=" button : there should be at least 2 numbers and a mathematical symbol in between
             let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
         
         // Create local copy of operations
-        var operationsToReduce = elements
+        var operationsToReduce = elements // preparing a var to store the result of the operations (need to take the indexes of elements for that)
         
         // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
+        while operationsToReduce.count > 1 { // The strategy here is to keep only one data in operationsToReduce, which will be the result so there is a while loop to continue as long as there is more than 1 index.
+            let left = Int(operationsToReduce[0])! // Index 0 is stored in "left" constant
+            let operand = operationsToReduce[1] // Index 1 is stored as "operand" constant
+            let right = Int(operationsToReduce[2])! // Index 2 is stored in "right" constant
+            // If there are more indexes, the first 3 will be calculated, the result takes the first place and the 2 following indexes will be removed and it continues until there is only 1 index in the array.
             
             let result: Int
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
-            default: fatalError("Unknown operator !")
+            default: fatalError("Unknown operator !") // only "+" and "-" are allowed
             }
             
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
+            operationsToReduce = Array(operationsToReduce.dropFirst(3)) // Remove first 3 index of operationsToReduce
+            operationsToReduce.insert("\(result)", at: 0) // add the result of the operation to var operationsToReduce at index 0
         }
         
-        textView.text.append(" = \(operationsToReduce.first!)")
+        textView.text.append(" = \(operationsToReduce.first!)") // add in textView the result of the operation (reading index 0 of operationsToReduce)
     }
 
 }
