@@ -12,32 +12,32 @@ class ViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet var numberButtons: [UIButton]!
-    @IBOutlet var operatorButtons: [UIButton]!
-    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet private weak var textView: UITextView!
+    @IBOutlet private var numberButtons: [UIButton]!
+    @IBOutlet private var operatorButtons: [UIButton]!
+    @IBOutlet private weak var resetButton: UIButton!
     
     // MARK: - Properties
     
-    var calculator = Calculator()
+    private var calculator = Calculator()
     
-    var elements: [String] {
+    private var elements: [String] {
         return textView.text.split(separator: " ").map { "\($0)" } // Return the text typed in textView and removing spaces
     }
     
-    var expressionIsCorrect: Bool {
+    private var expressionIsCorrect: Bool { // TODO: - the "-" should be usable first.
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" // Check that the elements selected before = are numbers and not +, -, * or /
     }
     
-    var expressionHaveEnoughElement: Bool {
+    private var expressionHaveEnoughElement: Bool {
         return elements.count >= calculator.minSelection // Check that at least 3 elements have been added to elements (because we need to use at least 2 numbers in operation and a mathematical symbol was used in between
     }
     
-    var canAddOperator: Bool {
+    private var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "/" // Check that mathematical symbols + and - can be added, if there is already "+" or "-" at the end it will return false
     }
     
-    var expressionHaveResult: Bool {
+    private var expressionHaveResult: Bool {
         return textView.text.firstIndex(of: "=") != nil // Check that the first elements typed in textView is not =
     }
     
@@ -51,12 +51,12 @@ class ViewController: UIViewController {
     
     // MARK: - View Actions
     
-    @IBAction func tappedResetButton(_ sender: UIButton) {
+    @IBAction private func tappedResetButton(_ sender: UIButton) {
         resetCalculator()
     }
     
     
-    @IBAction func tappedNumberButton(_ sender: UIButton) {
+    @IBAction private func tappedNumberButton(_ sender: UIButton) {
         guard let numberText = sender.title(for: .normal) else { // Get the title of the button selected and save it to numberText
             return
         }
@@ -67,7 +67,7 @@ class ViewController: UIViewController {
     }
     
     
-    @IBAction func tappedOperatorButton(_ sender: UIButton) {
+    @IBAction private func tappedOperatorButton(_ sender: UIButton) {
         guard let operatorText = sender.title(for: .normal) else {
             return
         }
@@ -86,7 +86,7 @@ class ViewController: UIViewController {
     }
     
     
-    @IBAction func tappedEqualButton(_ sender: UIButton) {
+    @IBAction private func tappedEqualButton(_ sender: UIButton) {
         guard expressionIsCorrect else { // allows typing "=" button only if it is not the first element typed in textView
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -126,7 +126,7 @@ class ViewController: UIViewController {
     
     // MARK: - Methods
     
-    func resetCalculator() {
+    private func resetCalculator() {
         textView.text = ""
     }
     

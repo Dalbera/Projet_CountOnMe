@@ -24,7 +24,7 @@ class Calculator {
 
     private var result: Int = 0
     
-    func calculate(_ leftValue: Int, _ operation: Operator, _ rightValue: Int) -> Int{
+    func calculate(_ leftValue: Int, _ operation: Operator, _ rightValue: Int) -> Int{        
         let result: Int
         switch operation {
         case .addition: result = leftValue + rightValue
