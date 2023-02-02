@@ -8,24 +8,24 @@
 
 import Foundation
 
-enum Operator: String {
-    case addition = "+"
-    case substraction = "-"
-    case multiplication = "x"
-    case division = "÷"
-    case none
-}
-
 class Calculator {
     // TODO: -
     // Manage the operations
     // Store the result
     
-    var minSelection = 3
+    private var minSelection = 3
     
-    var leftValue: Int = 0
-    var rightValue: Int = 0
+    private var leftValue: Int = 0
+    private var rightValue: Int = 0
     var operation = Operator.none
+    
+    enum Operator: String {
+        case addition = "+"
+        case substraction = "-"
+        case multiplication = "x"
+        case division = "÷"
+        case none
+    }
     
     var text: String = ""
     
