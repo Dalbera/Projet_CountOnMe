@@ -15,9 +15,6 @@ class Calculator {
     
     private var minSelection = 3
     
-    private var leftValue: Int = 0
-    private var rightValue: Int = 0
-    
     enum Operator: String {
         case addition = "+"
         case substraction = "-"
@@ -52,13 +49,8 @@ class Calculator {
         return text.firstIndex(of: "=") != nil // Check that the first elements typed in textView is not =
     }
     
-    private func transformNegativeIndexes(_ index: Int) {
-        var operationsToReduce = elements
-        if operationsToReduce[index] == "-" {
-            let newNumber = operationsToReduce[index] + operationsToReduce[index + 1]
-            operationsToReduce[index] = newNumber
-            operationsToReduce.remove(at: index + 1) // After the fusion we remove the element at the index + 1.
-        }
+    private func transformNumber(_ operation: [String], _ index: Int) -> Int {
+        return Int(operation[index])!
     }
     
     func reset() {
@@ -70,12 +62,19 @@ class Calculator {
         // Create local copy of operations
         var operationsToReduce = elements
         // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 { // The strategy here is to keep only one data in operationsToReduce, which will be the result so there is a while loop to continue as long as there is more than 1 index.
-            // If there are more indexes, the first 3 will be calculated, the result takes the first place and the 2 following indexes will be removed and it continues until there is only 1 index in the array.
-            transformNegativeIndexes(0)
-            leftValue = Int(operationsToReduce[0])! // Index 0 is stored in "leftValue" constant
-            transformNegativeIndexes(2)
-            rightValue = Int(operationsToReduce[2])! // Index 2 is stored in "rightValue" constant
+        while operationsToReduce.count > 1 {
+            if operationsToReduce[0] == "-" {
+                let newNumber = 0 - Int(operationsToReduce[1])!
+                operationsToReduce[0] = String(newNumber)
+                operationsToReduce.remove(at: 0)
+            }
+            let leftValue = transformNumber(operationsToReduce, 0)
+            if operationsToReduce[2] == "-" {
+                let newNumber = 0 - Int(operationsToReduce[3])!
+                operationsToReduce[0] = String(newNumber)
+                operationsToReduce.remove(at: 2)
+            }
+            let rightValue = transformNumber(operationsToReduce, 2)
             
             guard let operand = Operator(rawValue: operationsToReduce[1]) else {
                 reset() // TODO: Send error to Controller???

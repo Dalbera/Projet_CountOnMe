@@ -82,7 +82,6 @@ class ViewController: UIViewController {
         let result = calculator.calculate()
         textView.text = ""
         textView.text.append(" = \(result)") // add in textView the result of the operation (reading index 0 of operationsToReduce)
-        calculator.calculationIsOver() // TODO: delete?
         
     }
     
@@ -96,18 +95,6 @@ class ViewController: UIViewController {
     private func addToCalculator(_ element: String) {
         textView.text.append(element) // Communicate element to the View
         calculator.text.append(element) // Communicate element to Model
-    }
-    
-    private func changeOperationType(_ element: String) { // TODO: delete?
-        if element == "+" {
-            calculator.operation = .addition
-        } else if element == "-" {
-            calculator.operation = .substraction
-        } else if element == "*" {
-            calculator.operation = .multiplication
-        } else if element == "÷" {
-            calculator.operation = .division
-        }
     }
     
 }
