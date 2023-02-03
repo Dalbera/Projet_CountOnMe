@@ -241,7 +241,6 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="tappedEqualButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="eCh-eg-KL0"/>
                                             <action selector="tappedOperatorButton:" destination="eqK-jh-KKu" eventType="touchUpInside" id="BCk-4n-U5W"/>
                                         </connections>
                                     </button>
