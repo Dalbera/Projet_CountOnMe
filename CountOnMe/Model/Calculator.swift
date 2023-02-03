@@ -34,11 +34,16 @@ class Calculator {
     }
     
     var expressionIsCorrect: Bool {
-        return elements.first != "+" && elements.first != "-" && elements.first != "x" && elements.first != "÷" // Check that mathematical symbols + and - can be added, if there is already "+" or "-" at the end it will return false
+        return elements.first != "+" && elements.first != "-" && elements.first != "x" && elements.first != "÷" // Check if the first element is anything different than the 4 operators
     }
     
-    private var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷" // Check that mathematical symbols + and - can be added, if there is already "+" or "-" at the end it will return false
+    var previousElementIsNumber: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷" // Check if the last entry is anything other than an operator
+    }
+    
+    var canAddOperator: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷" // Check if the last entry is anything other than an operator
+//        return operation == .none
     }
     
     var expressionHasEnoughElements: Bool {
@@ -62,11 +67,9 @@ class Calculator {
         text = ""
     }
     
-    
-    //
-    //    func clearCalculator() {
-    //
-    //    }
+    func calculationIsOver() {
+        operation = .none
+    }
     
     func calculate() -> Int {
         var result: Int
@@ -82,10 +85,6 @@ class Calculator {
             
             guard let operand = Operator(rawValue: operationsToReduce[1]) else {
                 reset() // TODO: Send error to Controller???
-                //                textView.text = ""
-                //                let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-                //                alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                //                return self.present(alertVC, animated: true, completion: nil)
                 return 0
             }
             
