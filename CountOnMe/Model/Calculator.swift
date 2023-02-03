@@ -38,7 +38,7 @@ class Calculator {
     
     var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷" // Check if the last entry is anything other than an operator
-//        return operation == .none
+        //        return operation == .none
     }
     
     var expressionHasEnoughElements: Bool {
@@ -49,56 +49,100 @@ class Calculator {
         return text.firstIndex(of: "=") != nil // Check that the first elements typed in textView is not =
     }
     
-    private func transformNumber(_ operation: [String], _ index: Int) -> Int {
-        return Int(operation[index])!
-    }
-    
     func reset() {
         text = ""
     }
+
+//
+//    func calculate() -> Int {
+//        var result: Int
+//        // Create local copy of operations
+//        var operationsToReduce = elements
+//        // Iterate over operations while an operand still here
+//
+//        while operationsToReduce.count > 1 {
+//
+//            let leftValue = Int(operationsToReduce[0])!
+//            let rightValue = Int(operationsToReduce[2])!
+//
+//            guard let operand = Operator(rawValue: operationsToReduce[1]) else {
+//                reset() // TODO: Send error to Controller???
+//                return 0
+//            }
+//
+//            switch operand {
+//            case .addition: result = leftValue + rightValue
+//            case .substraction: result = leftValue - rightValue
+//            case .multiplication: result = leftValue * rightValue
+//            case .division:
+//                if (leftValue > 0 && rightValue > 0) {
+//                    result = leftValue / rightValue
+//                } else {
+//                    result = 0
+//                }
+//            }
+//            operationsToReduce = Array(operationsToReduce.dropFirst(3)) // Remove first 3 index of operationsToReduce
+//            operationsToReduce.insert("\(result)", at: 0) // add the result of the operation to var operationsToReduce at index 0
+//            return result
+//        }
+//        return 0
+//    }
+//
+    
     
     func calculate() -> Int {
-        var result: Int
         // Create local copy of operations
         var operationsToReduce = elements
+        // Priority given to multiplication and division
+        operationsToReduce.forEach {
+            if $0 == "÷" || $0 == "x" {
+                var operatorIndex = operationsToReduce.firstIndex(of: $0)!
+                let leftValue = Int(operationsToReduce[operatorIndex - 1])!
+                let operand = Operator(rawValue: operationsToReduce[operatorIndex])
+                let rightValue = Int(operationsToReduce[operatorIndex - 1])!
+                
+                let result: Int
+                
+                switch operand {
+                case .multiplication: result = leftValue * rightValue
+                case .division:
+                    if (leftValue > 0 && rightValue > 0) {
+                        result = leftValue / rightValue
+                    } else {
+                        result = 0
+                    }
+                default: fatalError("Unknown operator !")
+                }
+                
+                // Once multiplication or division are done, we remove the operator and left/right values from the array...
+                operationsToReduce.removeSubrange(operatorIndex - 1...operatorIndex + 1)
+                operatorIndex -= 1
+                // ... And insert the result of the operation at the index at the place the whole operation was before
+                operationsToReduce.insert(String(result), at: operatorIndex)
+            }
+        }
+        
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            if operationsToReduce[0] == "-" {
-                let newNumber = 0 - Int(operationsToReduce[1])!
-                operationsToReduce[0] = String(newNumber)
-                operationsToReduce.remove(at: 0)
-            }
-            let leftValue = transformNumber(operationsToReduce, 0)
-            if operationsToReduce[2] == "-" {
-                let newNumber = 0 - Int(operationsToReduce[3])!
-                operationsToReduce[0] = String(newNumber)
-                operationsToReduce.remove(at: 2)
-            }
-            let rightValue = transformNumber(operationsToReduce, 2)
+            let leftValue = Int(operationsToReduce[0])!
+            let operand = Operator(rawValue: operationsToReduce[1])
+            let rightValue = Int(operationsToReduce[2])!
             
-            guard let operand = Operator(rawValue: operationsToReduce[1]) else {
-                reset() // TODO: Send error to Controller???
-                return 0
-            }
             
+            let result: Int
             switch operand {
             case .addition: result = leftValue + rightValue
             case .substraction: result = leftValue - rightValue
-            case .multiplication: result = leftValue * rightValue
-            case .division:
-                if (leftValue > 0 && rightValue > 0) {
-                    return  leftValue / rightValue
-                } else {
-                    return 0
-                }
+            default: fatalError("Unknown operator !")
             }
-            operationsToReduce = Array(operationsToReduce.dropFirst(3)) // Remove first 3 index of operationsToReduce
-            operationsToReduce.insert("\(result)", at: 0) // add the result of the operation to var operationsToReduce at index 0
-            return result
+            
+            operationsToReduce = Array(operationsToReduce.dropFirst(3))
+            operationsToReduce.insert("\(result)", at: 0)
+    
         }
-        return 0
+        
+        let total = Int(operationsToReduce[0])!
+        return total
+        
     }
-    
-    
-    
 }

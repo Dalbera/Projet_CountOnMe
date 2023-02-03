@@ -81,7 +81,7 @@ class ViewController: UIViewController {
         
         let result = calculator.calculate()
         textView.text = ""
-        textView.text.append(" = \(result)") // add in textView the result of the operation (reading index 0 of operationsToReduce)
+        textView.text.append("\(result)") // add in textView the result of the operation (reading index 0 of operationsToReduce)
         
     }
     
