@@ -17,14 +17,12 @@ class Calculator {
     
     private var leftValue: Int = 0
     private var rightValue: Int = 0
-    var operation = Operator.none
     
     enum Operator: String {
         case addition = "+"
         case substraction = "-"
         case multiplication = "x"
         case division = "÷"
-        case none
     }
     
     var text: String = ""
@@ -67,10 +65,6 @@ class Calculator {
         text = ""
     }
     
-    func calculationIsOver() {
-        operation = .none
-    }
-    
     func calculate() -> Int {
         var result: Int
         // Create local copy of operations
@@ -98,8 +92,6 @@ class Calculator {
                 } else {
                     return 0
                 }
-            case .none:
-                return 0
             }
             operationsToReduce = Array(operationsToReduce.dropFirst(3)) // Remove first 3 index of operationsToReduce
             operationsToReduce.insert("\(result)", at: 0) // add the result of the operation to var operationsToReduce at index 0
