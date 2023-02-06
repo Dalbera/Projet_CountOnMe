@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         guard let numberText = sender.title(for: .normal) else { // Get the title of the button selected and save it to numberText
             return
         }
-        if calculator.expressionHasResult { // TODO: Doesn't work. When textView starts with "=", we need to reset everything if the user types a number
+        if textView.text.first == "=" {
             resetCalculator()
         }
         addToCalculator(numberText)
@@ -48,26 +48,16 @@ class ViewController: UIViewController {
         guard let operatorText = sender.title(for: .normal) else {
             return
         }
-        if calculator.expressionHasResult { // TODO: Doesn't work. When textView starts with "=", we need to reset everything if the user types an operator
+        if textView.text.first == "=" {
             resetCalculator()
         }
-        if textView.text == "" { // If user starts calculation with operator +, x or ÷, then return error
-            if operatorText != "-" {
-                let alertVC = UIAlertController(title: "Zéro!", message: "Le calcul ne peut pas démarrer par +, x ou ÷. Démarrez un nouveau calcul !", preferredStyle: .alert)
-                alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                return self.present(alertVC, animated: true, completion: nil)
-            } else {
-                addToCalculator(" \(operatorText) ")
-            }
-        } else if calculator.previousElementIsNumber { // If user has entered a number before the operator, add operator to calculator
-            addToCalculator(" \(operatorText) ")
-        } else if !calculator.previousElementIsNumber && operatorText == "-" { // If there is already an operator BUT the user tries to add "-", allows it, but don't change the operation type as the minus will make the following number negative
-            addToCalculator(" \(operatorText) ")
-        } else {
+        if textView.text ==  "" || !calculator.canAddOperator { // If user starts calculation with an operator, then return error
             resetCalculator()
-            let alertVC = UIAlertController(title: "Zéro!", message: "Entrée invalide !", preferredStyle: .alert)
+            let alertVC = UIAlertController(title: "Zéro!", message: "Entrée invalide ! Démarrez un nouveau calcul.", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            self.present(alertVC, animated: true, completion: nil)
+            return self.present(alertVC, animated: true, completion: nil)
+        } else {
+            addToCalculator(" \(operatorText) ")
         }
     }
     
@@ -81,7 +71,7 @@ class ViewController: UIViewController {
         
         let result = calculator.calculate()
         textView.text = ""
-        textView.text.append("\(result)") // add in textView the result of the operation (reading index 0 of operationsToReduce)
+        textView.text.append("= \(result)") // add in textView the result of the operation (reading index 0 of operationsToReduce)
         
     }
     
@@ -94,7 +84,7 @@ class ViewController: UIViewController {
     
     private func addToCalculator(_ element: String) {
         textView.text.append(element) // Communicate element to the View
-        calculator.text.append(element) // Communicate element to Model
+        calculator.appendText(element) // Communicate element to Model
     }
     
 }
