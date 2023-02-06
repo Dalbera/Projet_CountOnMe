@@ -44,6 +44,10 @@ class Calculator {
         return text.firstIndex(of: "=") != nil // Check that the first elements typed in textView is not =
     } // TODO: Doesn't work, for now the logic is in ViewController
     
+    var isEmpty: Bool {
+        return text == ""
+    }
+    
     func reset() {
         text = ""
     }

@@ -51,7 +51,7 @@ class ViewController: UIViewController {
         if textView.text.first == "=" {
             resetCalculator()
         }
-        if textView.text ==  "" || !calculator.canAddOperator { // If user starts calculation with an operator, then return error
+        if calculator.isEmpty || !calculator.canAddOperator { // If user starts calculation with an operator, then return error
             resetCalculator()
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrée invalide ! Démarrez un nouveau calcul.", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
