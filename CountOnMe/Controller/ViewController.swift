@@ -38,7 +38,7 @@ class ViewController: UIViewController {
         guard let numberText = sender.title(for: .normal) else { // Get the title of the button selected and save it to numberText
             return
         }
-        if textView.text.first == "=" {
+        if calculator.expressionHasResult {
             resetCalculator()
         }
         addToCalculator(numberText)
@@ -48,7 +48,7 @@ class ViewController: UIViewController {
         guard let operatorText = sender.title(for: .normal) else {
             return
         }
-        if textView.text.first == "=" {
+        if calculator.expressionHasResult {
             resetCalculator()
         }
         if calculator.isEmpty || !calculator.canAddOperator { // If user starts calculation with an operator, then return error
@@ -68,11 +68,7 @@ class ViewController: UIViewController {
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
-        
-        let result = calculator.calculate()
-        textView.text = ""
-        textView.text.append("= \(result)") // add in textView the result of the operation (reading index 0 of operationsToReduce)
-        
+        displayResult()
     }
     
     // MARK: - Methods
@@ -85,6 +81,12 @@ class ViewController: UIViewController {
     private func addToCalculator(_ element: String) {
         textView.text.append(element) // Communicate element to the View
         calculator.appendText(element) // Communicate element to Model
+    }
+    
+    private func displayResult() {
+        let result = calculator.calculate()
+        resetCalculator()
+        addToCalculator("= \(result)")
     }
     
 }

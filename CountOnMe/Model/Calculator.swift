@@ -30,22 +30,22 @@ class Calculator {
     
     var expressionIsCorrect: Bool {
         return elements.first != "+" && elements.first != "-" && elements.first != "x" && elements.first != "÷" && elements.first != "" // Check if the first element is anything different than the 4 operators
-    } // TODO: Doesn't work, for now the logic is in ViewController
+    }
     
     var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷" // Check if the last entry is anything other than an operator
-    } // TODO: Doesn't work, for now the logic is in ViewController
+    }
     
     var expressionHasEnoughElements: Bool {
         return elements.count >= minSelection // Check that at least 3 elements have been added to elements (because we need to use at least 2 numbers in operation and a mathematical symbol was used in between
     }
     
-    var expressionHasResult: Bool {
-        return text.firstIndex(of: "=") != nil // Check that the first elements typed in textView is not =
-    } // TODO: Doesn't work, for now the logic is in ViewController
-    
     var isEmpty: Bool {
         return text == ""
+    }
+    
+    var expressionHasResult: Bool {
+        return text.first == "="
     }
     
     func reset() {
