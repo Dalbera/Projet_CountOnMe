@@ -31,7 +31,7 @@ class SimpleCalcTests: XCTestCase {
         //When
         let result = calculator.calculate()
         //Then
-        XCTAssert(result == "6")
+        XCTAssert(result == "6.0")
     }
     
     func testGivenNumber_WhenSubstractingWithAnotherNumber_ThenResultShouldBeCorrect() {
@@ -40,7 +40,7 @@ class SimpleCalcTests: XCTestCase {
         //When
         let result = calculator.calculate()
         //Then
-        XCTAssert(result == "5")
+        XCTAssert(result == "5.0")
     }
     
     func testGivenNumber_WhenMultiplicatingByAnotherNumber_ThenResultShouldBeCorrect() {
