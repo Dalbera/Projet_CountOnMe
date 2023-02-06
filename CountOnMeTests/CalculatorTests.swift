@@ -25,43 +25,36 @@ class SimpleCalcTests: XCTestCase {
     }
 
     
-    func testGivenPositiveNumber_WhenAdditionningWithAnotherPositiveNumber_ThenPrintingResult() {
-        calculator.text = "1 + 5"
+    func testGivenNumber_WhenAdditionningWithAnotherNumber_ThenPrintingResult() {
+        calculator.appendText("1 + 5")
         let result = calculator.calculate()
         
         XCTAssert(result == 6)
     }
     
-    func testGivenPositiveNumber_WhenSubstractingByAnotherPositiveNumber_ThenPrintingResult() {
+    func testGivenNumber_WhenSubstractingWithAnotherNumber_ThenPrintingResult() {
+        calculator.appendText("9 - 4")
+        let result = calculator.calculate()
         
+        XCTAssert(result == 5)
     }
     
-    func testGivenPositiveNumber_WhenMultiplicatingByAnotherPositiveNumber_ThenPrintingResult() {
-        
+    func testGivenNumber_WhenMultiplicatingByAnotherNumber_ThenPrintingResult() {
+//        calculator.appendText("6 x 6")
+//        let result = calculator.calculate()
+//
+//        XCTAssert(result == 36)
     }
     
-    func testGivenPositiveNumber_WhenDivisingByAnotherPositiveNumber_ThenPrintingResult() {
-        
+    func testGivenNumber_WhenDivisingByAnotherNumber_ThenPrintingResult() {
+//        calculator.appendText("40 ÷ 10")
+//        let result = calculator.calculate()
+//
+//        XCTAssert(result == 4)
     }
-    
-    func testGivenNegativeNumber_WhenAdditionningWithAnotherNegativeNumber_ThenPrintingResult() {
+        
+    func testGivenNumber_WhenDivisingByZero_ThenReturningError() {
 
-    }
-    
-    func testGivennNegativeNumber_WhenSubstractingByAnotherNegativeNumber_ThenPrintingResult() {
-        
-    }
-    
-    func testGivenNegativeNumber_WhenMultiplicatingByAnotherNegativeNumber_ThenPrintingResult() {
-        
-    }
-    
-    func testGivenNegativeNumber_WhenDivisingByAnotherNegativeNumber_ThenPrintingResult() {
-        
-    }
-    
-    func testGivenANumber_WhenDivisingByZero_ThenReturningError() {
-        
     }
     
     func testGivenClearViewButton_WhenTapped_ThenClearTextView() {
