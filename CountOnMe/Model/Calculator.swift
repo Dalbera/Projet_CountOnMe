@@ -30,10 +30,6 @@ class Calculator {
         return text.split(separator: " ").map { "\($0)" } // Return the text typed in textView and removing spaces
     }
     
-    var expressionIsCorrect: Bool {
-        return elements.first != "+" && elements.first != "-" && elements.first != "x" && elements.first != "÷" && elements.first != "" // Check if the first element is anything different than the 4 operators
-    }
-    
     var canAddOperator: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷" // Check if the last entry is anything other than an operator
     }

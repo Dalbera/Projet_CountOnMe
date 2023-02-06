@@ -79,40 +79,76 @@ class SimpleCalcTests: XCTestCase {
         XCTAssert(result == "4.0")
     }
     
-    func testGivenClearViewButton_WhenTapped_ThenClearTextView() {
+    func testGivenNewCalculation_WhenAddingAnOperatorFirst_ThenOperatorIsNotAdded() {
         //Given
+        calculator.appendText("")
         //When
+        let result = calculator.isEmpty
         //Then
+        XCTAssert(result)
     }
     
-    func testGivenNewCalculation_WhenAddingAnOperatorFirst_ThenReturningError() {
+    func testGivenNewCalculation_WhenAddingFirstEqual_ThenEqualIsNotAdded() {
         //Given
+        calculator.appendText("")
         //When
+        let result = calculator.expressionHasResult
         //Then
+        XCTAssertFalse(result)
     }
     
-    func testGivenNewCalculation_WhenAddingFirstEqual_ThenReturningError() {
+    func testGivenAddition_WhenAddingAnotherOperator_ThenOperatorIsNotAdded() {
         //Given
+        calculator.appendText("2 +")
         //When
+        let result = calculator.canAddOperator
         //Then
+        XCTAssertFalse(result)
     }
     
-    func testGivenOperatorIsAdded_WhenAddingAMinusOperator_ThenProcedingWithCalculation() {
+    func testGivenSubstraction_WhenAddingAnotherOperator_ThenOperatorIsNotAdded() {
         //Given
+        calculator.appendText("2 -")
         //When
+        let result = calculator.canAddOperator
         //Then
+        XCTAssertFalse(result)
     }
     
-    func testGivenOperatorIsAdded_WhenAddingAPlusOperator_ThenReturningError() {
+    func testGivenMultiplication_WhenAddingAnotherOperator_ThenOperatorIsNotAdded() {
         //Given
+        calculator.appendText("2 x")
         //When
+        let result = calculator.canAddOperator
         //Then
+        XCTAssertFalse(result)
     }
     
-    func testGivenNewCalculation_WhenAddingHugeNumbers_ThenPrintingResult() {
+    func testGivenDivision_WhenAddingAnotherOperator_ThenOperatorIsNotAdded() {
         //Given
+        calculator.appendText("2 ÷")
         //When
+        let result = calculator.canAddOperator
         //Then
+        XCTAssertFalse(result)
+    }
+    
+    func testGivenOperationWith1Element_WhenStartingCalculation_ThenOperationCannotProceed() {
+        //Given
+        calculator.appendText("145")
+        //When
+        let result = calculator.expressionHasEnoughElements
+        //Then
+        XCTAssertFalse(result)
+    }
+    
+    func testGivenNewCalculation_WhenAddingHugeNumbers_ThenResultIsCorrect() {
+        //Given
+        calculator.appendText("123456789 x 1000000000")
+        //When
+        let result = calculator.calculate()
+        //Then
+        XCTAssert(result == "1.23456789e+17")
     }
     
 
