@@ -13,14 +13,16 @@ class Calculator {
     // Manage the operations
     // Store the result
     
-    private var minSelection = 3
-    
     enum Operator: String {
         case addition = "+"
         case substraction = "-"
         case multiplication = "x"
         case division = "÷"
     }
+    
+    // MARK: - Properties
+    
+    private var minSelection = 3
     
     private(set) var text: String = ""
     
@@ -47,6 +49,8 @@ class Calculator {
     var expressionHasResult: Bool {
         return text.first == "="
     }
+    
+    // MARK: - Methods
     
     func reset() {
         text = ""
