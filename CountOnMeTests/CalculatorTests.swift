@@ -72,8 +72,11 @@ class SimpleCalcTests: XCTestCase {
     
     func testGivenOperationWithMultipleOperators_WhenCalculating_MultiplicationAndDivisionArePrioritized() {
         //Given
+        calculator.appendText("3 + 27 ÷ 3 - 8")
         //When
+        let result = calculator.calculate()
         //Then
+        XCTAssert(result == "4.0")
     }
     
     func testGivenClearViewButton_WhenTapped_ThenClearTextView() {

@@ -65,7 +65,7 @@ class Calculator {
         var operationsToReduce = elements
         // Priority given to multiplication and division
         
-        var isCorrect = true
+        var operationIsCorrect = true
         
         operationsToReduce.forEach {
             if $0 == "÷" || $0 == "x" {
@@ -74,15 +74,15 @@ class Calculator {
                 let operand = Operator(rawValue: operationsToReduce[operatorIndex])
                 let rightValue = Double(operationsToReduce[operatorIndex + 1])!
                 
-                let result: String
+                let result: Double
                 
                 switch operand {
-                case .multiplication: result = String(leftValue * rightValue)
+                case .multiplication: result = leftValue * rightValue
                 case .division:
                     if (leftValue > 0 && rightValue > 0) {
-                        result = String(leftValue / rightValue)
+                        result = leftValue / rightValue
                     } else {
-                        isCorrect = false
+                        operationIsCorrect = false
                         return
                     }
                 default: fatalError("Unknown operator !")
@@ -96,18 +96,19 @@ class Calculator {
             }
         }
         
-        if isCorrect == false {
-            return "Erreur"
+        if operationIsCorrect == false {
+            let error = "Erreur"
+            return error
         }
         
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
-            let leftValue = Int(operationsToReduce[0])!
+            let leftValue = Double(operationsToReduce[0])!
             let operand = Operator(rawValue: operationsToReduce[1])
-            let rightValue = Int(operationsToReduce[2])!
+            let rightValue = Double(operationsToReduce[2])!
             
             
-            let result: Int
+            let result: Double
             switch operand {
             case .addition: result = leftValue + rightValue
             case .substraction: result = leftValue - rightValue
