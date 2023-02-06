@@ -60,26 +60,30 @@ class Calculator {
         text.append(message)
     }
     
-    func calculate() -> Double {
+    func calculate() -> String {
         // Create local copy of operations
         var operationsToReduce = elements
         // Priority given to multiplication and division
+        
+        var isCorrect = true
+        
         operationsToReduce.forEach {
             if $0 == "÷" || $0 == "x" {
                 var operatorIndex = operationsToReduce.firstIndex(of: $0)!
                 let leftValue = Double(operationsToReduce[operatorIndex - 1])!
                 let operand = Operator(rawValue: operationsToReduce[operatorIndex])
-                let rightValue = Double(operationsToReduce[operatorIndex - 1])!
+                let rightValue = Double(operationsToReduce[operatorIndex + 1])!
                 
-                let result: Double
+                let result: String
                 
                 switch operand {
-                case .multiplication: result = leftValue * rightValue
+                case .multiplication: result = String(leftValue * rightValue)
                 case .division:
                     if (leftValue > 0 && rightValue > 0) {
-                        result = leftValue / rightValue
+                        result = String(leftValue / rightValue)
                     } else {
-                        result = 0
+                        isCorrect = false
+                        return
                     }
                 default: fatalError("Unknown operator !")
                 }
@@ -90,6 +94,10 @@ class Calculator {
                 // ... And insert the result of the operation at the index at the place the whole operation was before
                 operationsToReduce.insert(String(result), at: operatorIndex)
             }
+        }
+        
+        if isCorrect == false {
+            return "Erreur"
         }
         
         // Iterate over operations while an operand still here
@@ -111,7 +119,7 @@ class Calculator {
     
         }
         
-        let total = Double(operationsToReduce[0])!
+        let total = operationsToReduce[0]
         return total
         
     }

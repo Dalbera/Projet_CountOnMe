@@ -25,60 +25,91 @@ class SimpleCalcTests: XCTestCase {
     }
 
     
-    func testGivenNumber_WhenAdditionningWithAnotherNumber_ThenPrintingResult() {
+    func testGivenNumber_WhenAdditionningWithAnotherNumber_ThenResultShouldBeCorrect() {
+        //Given
         calculator.appendText("1 + 5")
+        //When
         let result = calculator.calculate()
-        
-        XCTAssert(result == 6)
+        //Then
+        XCTAssert(result == "6")
     }
     
-    func testGivenNumber_WhenSubstractingWithAnotherNumber_ThenPrintingResult() {
+    func testGivenNumber_WhenSubstractingWithAnotherNumber_ThenResultShouldBeCorrect() {
+        //Given
         calculator.appendText("9 - 4")
+        //When
         let result = calculator.calculate()
-        
-        XCTAssert(result == 5)
+        //Then
+        XCTAssert(result == "5")
     }
     
-    func testGivenNumber_WhenMultiplicatingByAnotherNumber_ThenPrintingResult() {
-//        calculator.appendText("6 x 6")
-//        let result = calculator.calculate()
-//
-//        XCTAssert(result == 36)
+    func testGivenNumber_WhenMultiplicatingByAnotherNumber_ThenResultShouldBeCorrect() {
+        //Given
+        calculator.appendText("6 x 6")
+        //When
+        let result = calculator.calculate()
+        //Then
+        XCTAssert(result == "36.0")
     }
     
-    func testGivenNumber_WhenDivisingByAnotherNumber_ThenPrintingResult() {
-//        calculator.appendText("40 ÷ 10")
-//        let result = calculator.calculate()
-//
-//        XCTAssert(result == 4)
+    func testGivenNumber_WhenDivisingByAnotherNumber_ThenResultShouldBeCorrect() {
+        //Given
+        calculator.appendText("40 ÷ 10")
+        //When
+        let result = calculator.calculate()
+        //Then
+        XCTAssert(result == "4.0")
     }
         
     func testGivenNumber_WhenDivisingByZero_ThenReturningError() {
-
+        //Given
+        calculator.appendText("7 ÷ 0")
+        //When
+        let result = calculator.calculate()
+        //Then
+        XCTAssert(result == "Erreur")
+    }
+    
+    func testGivenOperationWithMultipleOperators_WhenCalculating_MultiplicationAndDivisionArePrioritized() {
+        //Given
+        //When
+        //Then
     }
     
     func testGivenClearViewButton_WhenTapped_ThenClearTextView() {
-        
+        //Given
+        //When
+        //Then
     }
     
-    func testGivenNewCalculation_WhenAddingFirstAMultiplie_ThenReturningError() {
-        
+    func testGivenNewCalculation_WhenAddingAnOperatorFirst_ThenReturningError() {
+        //Given
+        //When
+        //Then
     }
     
     func testGivenNewCalculation_WhenAddingFirstEqual_ThenReturningError() {
-        
+        //Given
+        //When
+        //Then
     }
     
     func testGivenOperatorIsAdded_WhenAddingAMinusOperator_ThenProcedingWithCalculation() {
-        
+        //Given
+        //When
+        //Then
     }
     
     func testGivenOperatorIsAdded_WhenAddingAPlusOperator_ThenReturningError() {
-        
+        //Given
+        //When
+        //Then
     }
     
     func testGivenNewCalculation_WhenAddingHugeNumbers_ThenPrintingResult() {
-        
+        //Given
+        //When
+        //Then
     }
     
 
