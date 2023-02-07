@@ -57,12 +57,11 @@ class Calculator {
     }
     
     func calculate() -> String {
-        // Create local copy of operations
+        // Create local copy of the operation
         var operationsToReduce = elements
-        // Priority given to multiplication and division
         
+        // Prioritize the multiplication and division
         var operationIsCorrect = true
-        
         operationsToReduce.forEach {
             if $0 == "÷" || $0 == "x" {
                 var operatorIndex = operationsToReduce.firstIndex(of: $0)!
@@ -78,21 +77,21 @@ class Calculator {
                     if (leftValue > 0 && rightValue > 0) {
                         result = leftValue / rightValue
                     } else {
-                        operationIsCorrect = false
+                        operationIsCorrect = false // If division using 0, we stop here
                         return
                     }
                 default: fatalError("Unknown operator !")
                 }
-                
-                // Once multiplication or division are done, we remove the operator and left/right values from the array...
+
+                // Once multiplication or division is done, we remove the operator and left/right values from the array...
                 operationsToReduce.removeSubrange(operatorIndex - 1...operatorIndex + 1)
                 operatorIndex -= 1
-                // ... And insert the result of the operation at the index at the place the whole operation was before
+                // ... And insert the result of the operation at the index of previously used indexes
                 operationsToReduce.insert(String(result), at: operatorIndex)
             }
         }
         
-        if operationIsCorrect == false {
+        if operationIsCorrect == false { // If division using 0, we get directly here and return error
             let error = "Erreur"
             return error
         }

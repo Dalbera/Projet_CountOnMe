@@ -13,8 +13,8 @@ class ViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet private weak var textView: UITextView!
-    @IBOutlet private var numberButtons: [UIButton]!
-    @IBOutlet private var operatorButtons: [UIButton]!
+    @IBOutlet private var numberButtons: [UIButton]! // Collection of all numbers buttons
+    @IBOutlet private var operatorButtons: [UIButton]! // Collection of all operators buttons
     @IBOutlet private weak var resetButton: UIButton!
     
     // MARK: - Properties
@@ -35,23 +35,23 @@ class ViewController: UIViewController {
     }
     
     @IBAction private func tappedNumberButton(_ sender: UIButton) {
-        guard let numberText = sender.title(for: .normal) else { // Get the title of the button selected and save it to numberText
+        guard let numberText = sender.title(for: .normal) else { // This Action is linked to ALL number buttons, we fetch the title of the number button selected and save it to numberText
             return
         }
-        if calculator.expressionHasResult {
+        if calculator.expressionHasResult { // If there is still the result of a previous operation, clear the calculator to start a new operation
             resetCalculator()
         }
         addToCalculator(numberText)
     }
     
     @IBAction private func tappedOperatorButton(_ sender: UIButton) {
-        guard let operatorText = sender.title(for: .normal) else {
+        guard let operatorText = sender.title(for: .normal) else { // This Action is linked to the operator (+, -, x and /) buttons, we fetch the title of the button selected and save it to operatorText
             return
         }
-        if calculator.expressionHasResult {
+        if calculator.expressionHasResult { // If there is still the result of a previous operation, clear the calculator to start a new operation
             resetCalculator()
         }
-        if calculator.isEmpty || !calculator.canAddOperator { // If user starts calculation with an operator, then return error
+        if calculator.isEmpty || !calculator.canAddOperator { // If user starts calculation with an operator or if there is already an operator, then return error
             resetCalculator()
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrée invalide ! Démarrez un nouveau calcul.", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -74,8 +74,8 @@ class ViewController: UIViewController {
     // MARK: - Methods
     
     private func resetCalculator() {
-        calculator.reset()
-        textView.text = ""
+        calculator.reset() // Clear the data of the operation saved in the Model
+        textView.text = "" // Clear the data of the operation in the View
     }
     
     private func addToCalculator(_ element: String) {
@@ -84,7 +84,7 @@ class ViewController: UIViewController {
     }
     
     private func displayResult() {
-        let result = calculator.calculate()
+        let result = calculator.calculate() // Start operation and save the result
         resetCalculator()
         addToCalculator("= \(result)")
     }
