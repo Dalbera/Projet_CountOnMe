@@ -9,9 +9,6 @@
 import Foundation
 
 class Calculator {
-    // TODO: -
-    // Manage the operations
-    // Store the result
     
     enum Operator: String {
         case addition = "+"
@@ -46,6 +43,8 @@ class Calculator {
         return text.first == "="
     }
     
+    var operationIsCorrect = true
+    
     // MARK: - Methods
     
     func reset() {
@@ -59,15 +58,47 @@ class Calculator {
     func calculate() -> String {
         // Create local copy of the operation
         var operationsToReduce = elements
+        operationIsCorrect = true
+        // If there are operator x or /, calculate these operations first and store the result.
+        var operationConverted = calculateResultOfMultiplicationOrDivision(operationsToReduce)
         
-        // Prioritize the multiplication and division
-        var operationIsCorrect = true
-        operationsToReduce.forEach {
+        if operationIsCorrect == false { // If division using 0, we get directly here and return error
+            let error = "Erreur"
+            return error
+        }
+        
+        // Iterate over operations while an operand still here
+        while operationConverted.count > 1 {
+            let leftValue = Double(operationConverted[0])!
+            let operand = Operator(rawValue: operationConverted[1])
+            let rightValue = Double(operationConverted[2])!
+            
+            
+            let result: Double
+            switch operand {
+            case .addition: result = leftValue + rightValue
+            case .substraction: result = leftValue - rightValue
+            default: fatalError("Unknown operator !")
+            }
+            
+            operationConverted = Array(operationConverted.dropFirst(3))
+            operationConverted.insert("\(result)", at: 0)
+            
+        }
+        
+        let total = operationConverted[0]
+        return total
+        
+    }
+    
+    func calculateResultOfMultiplicationOrDivision(_ elements: [String]) -> [String] {
+        var elements = elements
+        elements.forEach {
             if $0 == "÷" || $0 == "x" {
-                var operatorIndex = operationsToReduce.firstIndex(of: $0)!
-                let leftValue = Double(operationsToReduce[operatorIndex - 1])!
-                let operand = Operator(rawValue: operationsToReduce[operatorIndex])
-                let rightValue = Double(operationsToReduce[operatorIndex + 1])!
+                var operatorIndex = elements.firstIndex(of: $0)!
+                let leftValue = Double(elements[operatorIndex - 1])!
+                let operand = Operator(rawValue: elements[operatorIndex])
+                let rightValue = Double(elements[operatorIndex + 1])!
                 
                 let result: Double
                 
@@ -82,41 +113,15 @@ class Calculator {
                     }
                 default: fatalError("Unknown operator !")
                 }
-
+                
                 // Once multiplication or division is done, we remove the operator and left/right values from the array...
-                operationsToReduce.removeSubrange(operatorIndex - 1...operatorIndex + 1)
+                elements.removeSubrange(operatorIndex - 1...operatorIndex + 1)
                 operatorIndex -= 1
                 // ... And insert the result of the operation at the index of previously used indexes
-                operationsToReduce.insert(String(result), at: operatorIndex)
+                elements.insert(String(result), at: operatorIndex)
             }
         }
-        
-        if operationIsCorrect == false { // If division using 0, we get directly here and return error
-            let error = "Erreur"
-            return error
-        }
-        
-        // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            let leftValue = Double(operationsToReduce[0])!
-            let operand = Operator(rawValue: operationsToReduce[1])
-            let rightValue = Double(operationsToReduce[2])!
-            
-            
-            let result: Double
-            switch operand {
-            case .addition: result = leftValue + rightValue
-            case .substraction: result = leftValue - rightValue
-            default: fatalError("Unknown operator !")
-            }
-            
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
-    
-        }
-        
-        let total = operationsToReduce[0]
-        return total
-        
+        return elements
     }
+    
 }
