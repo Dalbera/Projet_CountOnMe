@@ -57,7 +57,7 @@ class Calculator {
     
     func calculate() -> String {
         // Create local copy of the operation
-        var operationsToReduce = elements
+        let operationsToReduce = elements
         operationIsCorrect = true
         // If there are operator x or /, calculate these operations first and store the result.
         var operationConverted = calculateResultOfMultiplicationOrDivision(operationsToReduce)
