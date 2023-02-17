@@ -43,7 +43,7 @@ class Calculator {
         return text.first == "="
     }
     
-    var operationIsCorrect = true
+    private var operationIsCorrect = true
     
     // MARK: - Methods
     
